@@ -1,0 +1,1 @@
+Simple NestJS application for learning purpose with all the necessary operations for REST API
