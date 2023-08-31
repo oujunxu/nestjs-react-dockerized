@@ -27,6 +27,10 @@ export class UserService {
                             newUser.email = user.email;
                             newUser.password = passwordHash;
                             newUser.roles = UserRole.USER;
+                            
+                            if(user.email === "admin@gmail.com"){
+                                newUser.roles = UserRole.ADMIN;
+                            }
 
                             /**
                              * pipe

@@ -29,7 +29,7 @@ export const UserEdit = () => {
             "roles": user?.roles
         };
         localStorage.setItem("user", JSON.stringify(body))
-        fetch(`${process.env.REACT_APP_SERVER_URL}/user/${id}/admin/update`, AuthHeader(Method.PUT, body)).then(() => window.location.replace("/admin/user"));
+        fetch(`${process.env.REACT_APP_SERVER_URL}/user/${id}/admin/update`, AuthHeader(Method.PUT)).then(() => window.location.replace("/admin/user"));
     }
 
     return (
