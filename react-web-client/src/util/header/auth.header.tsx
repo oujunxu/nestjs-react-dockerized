@@ -9,7 +9,11 @@ export enum Method {
 
 export type HeaderType = {
     method?: Method,
-    headers?: {},
+    headers?: {
+        'Content-type': string,
+        Authorization: string,
+        Accept?: string
+    },
     body?: string 
 }
 
