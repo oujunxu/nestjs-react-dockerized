@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { AuthHeader, Method } from "../../../util/header/auth.header";
 
 export const UserEdit = () => {
-    const [user, setUser] = useState<UserProps>();
     const [tempUser, setTempUser ] = useState<UserProps>();
 
     const { id } = useParams();
@@ -13,23 +12,34 @@ export const UserEdit = () => {
         fetch(`${process.env.REACT_APP_SERVER_URL}/user/${id}`)
         .then((res) => res.json())
         .then((data:UserProps) => {
-            setUser(data);
             setTempUser(data);
         })
         .catch(error => console.log(error));
     },[])
 
-    useEffect(()=>{
-        setUser(tempUser);
-    },[])
-
     const editHandler = () => {
-        const body = {
-            "name": user?.name,
-            "roles": user?.roles
+        const token = JSON.parse(String(localStorage.getItem('JWT_AUTH'))).access_token;
+        const request:any = 
+        {
+            method: 'PUT',
+            headers: {
+                
+                Accept: 'application/json',
+                Authentication: `bearer ${token}`
+            },
+            body: JSON.stringify(
+                {
+                    name: tempUser?.name,
+                    roles: tempUser?.roles
+                }
+            )
         };
-        localStorage.setItem("user", JSON.stringify(body))
-        fetch(`${process.env.REACT_APP_SERVER_URL}/user/${id}/admin/update`, AuthHeader(Method.PUT)).then(() => window.location.replace("/admin/user"));
+
+        fetch(`${process.env.REACT_APP_SERVER_URL}/user/${id}/admin/update`, 
+        request)
+        .then((response) => localStorage.setItem('url', `${process.env.REACT_APP_SERVER_URL}/user/${id}/admin/update` ))
+        .catch((e) => localStorage.setItem('error', e))
+        //.then(() => window.location.replace("/admin/user"));
     }
 
     return (
@@ -40,7 +50,7 @@ export const UserEdit = () => {
                         <label className="">Email</label>
                         <input 
                             type="email" 
-                            value={tempUser?.email} 
+                            value={tempUser?.email || ""} 
                             className="form-control"
                             readOnly
                             />
@@ -49,7 +59,7 @@ export const UserEdit = () => {
                         <label className="">Name</label>
                         <input 
                             type="text" 
-                            value={tempUser?.name} 
+                            value={tempUser?.name || ""} 
                             className="form-control"
                             onChange={
                                 (e:React.ChangeEvent<HTMLInputElement>)=>{
@@ -61,7 +71,7 @@ export const UserEdit = () => {
                         <label className="">Role</label>
                         <select 
                             className="form-select form-control" 
-                            value={tempUser?.roles} 
+                            value={tempUser?.roles || ""} 
                             onChange={
                                 (e:any)=>{
                                     setTempUser({...tempUser, roles: e.target.value});

@@ -1,4 +1,4 @@
-import {Routes, Route, NavLink, BrowserRouter, Router} from 'react-router-dom';
+import { Routes, Route, NavLink, BrowserRouter, Router } from 'react-router-dom';
 import { RouteType } from '../routes/types/RouteType';
 import { AdminGuard } from '../routes/AdminGuard';
 import { User } from './components/User';

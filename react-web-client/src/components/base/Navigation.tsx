@@ -20,7 +20,7 @@ export const Navigation = () => {
                     <NavLink className="nav-link" to="/ex1">Link</NavLink>
                 </li>
                 <li className="nav-item dropdown">
-                    <NavLink className="nav-link dropdown-toggle" to="/ex2" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <NavLink className="nav-link dropdown-toggle" to="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Dropdown
                     </NavLink>
                     <div className="dropdown-menu" aria-labelledby="navbarDropdown">

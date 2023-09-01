@@ -13,7 +13,7 @@ export const AuthHeader = (method:Method) => {
 
     if(token){
         authHeader = 
-            {
+        {
             method: method,
             headers: {
                 Accept: 'application/json',
