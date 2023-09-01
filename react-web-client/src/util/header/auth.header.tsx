@@ -7,18 +7,28 @@ export enum Method {
     PUT = 'PUT'
 }
 
-export const AuthHeader = (method:Method) => {
+export type HeaderType = {
+    method?: Method,
+    headers?: {},
+    body?: string 
+}
+
+export const AuthHeader = (method:Method, body?:UserProps) => {
     const token = JSON.parse(String(localStorage.getItem('JWT_AUTH'))).access_token;
-    let authHeader = {};
+    let authHeader:HeaderType = {};
 
     if(token){
         authHeader = 
         {
             method: method,
             headers: {
-                Accept: 'application/json',
-                Authentication: `bearer ${token}`
+                'Content-type': 'application/json',
+                Authorization: `bearer ${token}`
             }
+        }
+
+        if(body){
+            authHeader['body'] = JSON.stringify(body);
         }
     }
 

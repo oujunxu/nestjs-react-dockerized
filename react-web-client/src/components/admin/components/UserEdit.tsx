@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { AuthHeader, Method } from "../../../util/header/auth.header";
 
 export const UserEdit = () => {
+    const [data, setData] = useState({});
     const [tempUser, setTempUser ] = useState<UserProps>();
 
     const { id } = useParams();
@@ -18,28 +19,11 @@ export const UserEdit = () => {
     },[])
 
     const editHandler = () => {
-        const token = JSON.parse(String(localStorage.getItem('JWT_AUTH'))).access_token;
-        const request:any = 
-        {
-            method: 'PUT',
-            headers: {
-                
-                Accept: 'application/json',
-                Authentication: `bearer ${token}`
-            },
-            body: JSON.stringify(
-                {
-                    name: tempUser?.name,
-                    roles: tempUser?.roles
-                }
-            )
-        };
 
-        fetch(`${process.env.REACT_APP_SERVER_URL}/user/${id}/admin/update`, 
-        request)
-        .then((response) => localStorage.setItem('url', `${process.env.REACT_APP_SERVER_URL}/user/${id}/admin/update` ))
-        .catch((e) => localStorage.setItem('error', e))
-        //.then(() => window.location.replace("/admin/user"));
+        fetch(`${process.env.REACT_APP_SERVER_URL}/user/${id}/admin/update`, AuthHeader(Method.PUT, {name: tempUser?.name, roles: tempUser?.roles}))
+        .then((res) => res.json())
+        .then((data)=>{setData(data); localStorage.setItem("data", JSON.stringify(data))})
+        .catch((e) => console.error('error', e))
     }
 
     return (

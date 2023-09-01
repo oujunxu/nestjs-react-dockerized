@@ -126,7 +126,7 @@ export class UserService {
                         const {password, ...result} = user;
                         return result;
                     }else{
-                        throw new HttpException('Wrong Credentials', HttpStatus.CONFLICT);;
+                        throw new HttpException('Wrong Credentials', HttpStatus.CONFLICT);
                     }
                 })
             ))
